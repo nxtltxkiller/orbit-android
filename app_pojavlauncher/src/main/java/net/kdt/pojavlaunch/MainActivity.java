@@ -103,6 +103,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     private View mDrawerPullButton;
     private GyroControl mGyroControl = null;
     private PhoneHud mPhoneHud = null;
+    private LowLatency mLowLatency = null;
     private ControlLayout mControlLayout;
     private HotbarView mHotbarView;
     private FrameLayout contentFrame;
@@ -219,6 +220,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     protected void initLayout(int resId) {
         setContentView(resId);
         if (LauncherPreferences.PREF_PHONE_HUD) { mPhoneHud = new PhoneHud(this); mPhoneHud.attach(); }
+        mLowLatency = new LowLatency(this); mLowLatency.setupWindow();
         bindValues();
         mControlLayout.setMenuListener(this);
 
@@ -350,6 +352,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         super.onResume();
         if(PREF_ENABLE_GYRO) mGyroControl.enable();
         if(mPhoneHud != null) mPhoneHud.start();
+        if(mLowLatency != null) mLowLatency.acquire();
         CallbackBridge.nativeSetWindowAttrib(LwjglGlfwKeycode.GLFW_FOCUSED, 1);
         CallbackBridge.nativeSetWindowAttrib(LwjglGlfwKeycode.GLFW_HOVERED, 1);
     }
@@ -358,6 +361,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     protected void onPause() {
         mGyroControl.disable();
         if(mPhoneHud != null) mPhoneHud.stop();
+        if(mLowLatency != null) mLowLatency.release();
         if (CallbackBridge.isGrabbing()){
             sendKeyPress(LwjglGlfwKeycode.GLFW_KEY_ESCAPE);
         }

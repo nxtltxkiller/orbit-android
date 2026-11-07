@@ -17,6 +17,11 @@
             android:title="@string/orbit_free_ram_title"
             android:summary="@string/orbit_free_ram_desc"/>
         <SwitchPreference
+            android:key="lowLatency"
+            android:title="@string/orbit_lowlat_title"
+            android:summary="@string/orbit_lowlat_desc"
+            android:defaultValue="true"/>
+        <SwitchPreference
             android:key="snapTap"
             android:title="@string/orbit_snap_title"
             android:summary="@string/orbit_snap_desc"
