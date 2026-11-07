@@ -517,4 +517,15 @@
     <string name="angelica_found_sfpew_notice">Angelica mod found, Simple FPE Wrapper not needed</string>
     <string name="use_angle_checkbox">Use ANGLE (might help FPS)</string>
 
+    <string name="orbit_gyro_sens_x">Gyro sensitivity: left / right (%)</string>
+    <string name="orbit_gyro_sens_y">Gyro sensitivity: up / down (%)</string>
+    <string name="orbit_gyro_sens_desc">On top of the main gyro sensitivity. 100 = unchanged.</string>
+    <string name="orbit_gyro_deadzone">Gyro deadzone</string>
+    <string name="orbit_gyro_deadzone_desc">Ignores tiny movements so shaky hands don\'t move your aim. 0 = off.</string>
+    <string name="orbit_gyro_touch">Touch-to-aim</string>
+    <string name="orbit_gyro_touch_desc">Gyro only moves your aim while a finger is on the screen. Lift every finger to re-centre the phone.</string>
+    <string name="orbit_gyro_flick">Flick boost</string>
+    <string name="orbit_gyro_flick_desc">Fast turns move up to 1.8x further, so 180s need less wrist. Slow aim stays 1:1.</string>
+    <string name="orbit_phone_hud">Phone health overlay</string>
+    <string name="orbit_phone_hud_desc">Battery, battery temperature and free RAM in the corner while playing. Turns red when the phone gets hot.</string>
 </resources>

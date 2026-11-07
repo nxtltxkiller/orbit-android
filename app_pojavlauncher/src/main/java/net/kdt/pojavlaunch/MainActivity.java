@@ -102,6 +102,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     private ListView navDrawer;
     private View mDrawerPullButton;
     private GyroControl mGyroControl = null;
+    private PhoneHud mPhoneHud = null;
     private ControlLayout mControlLayout;
     private HotbarView mHotbarView;
     private FrameLayout contentFrame;
@@ -217,6 +218,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
 
     protected void initLayout(int resId) {
         setContentView(resId);
+        if (LauncherPreferences.PREF_PHONE_HUD) { mPhoneHud = new PhoneHud(this); mPhoneHud.attach(); }
         bindValues();
         mControlLayout.setMenuListener(this);
 
@@ -347,6 +349,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     public void onResume() {
         super.onResume();
         if(PREF_ENABLE_GYRO) mGyroControl.enable();
+        if(mPhoneHud != null) mPhoneHud.start();
         CallbackBridge.nativeSetWindowAttrib(LwjglGlfwKeycode.GLFW_FOCUSED, 1);
         CallbackBridge.nativeSetWindowAttrib(LwjglGlfwKeycode.GLFW_HOVERED, 1);
     }
@@ -354,6 +357,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     @Override
     protected void onPause() {
         mGyroControl.disable();
+        if(mPhoneHud != null) mPhoneHud.stop();
         if (CallbackBridge.isGrabbing()){
             sendKeyPress(LwjglGlfwKeycode.GLFW_KEY_ESCAPE);
         }
@@ -376,6 +380,12 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     protected void onStop() {
         CallbackBridge.nativeSetWindowAttrib(LwjglGlfwKeycode.GLFW_VISIBLE, 0);
         super.onStop();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        GyroControl.onTouch(ev);
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override

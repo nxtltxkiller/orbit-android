@@ -147,6 +147,48 @@
             android:key="gyroInvertY"
             android:title="@string/preference_gyro_invert_y_axis"
             android:summary="@string/preference_gyro_invert_y_axis_description"/>
+        <net.kdt.pojavlaunch.prefs.CustomSeekBarPreference
+            android:key="gyroSensX"
+            android:title="@string/orbit_gyro_sens_x"
+            android:summary="@string/orbit_gyro_sens_desc"
+            android:defaultValue="100"
+            app2:min="10"
+            android:max="300"
+            app2:selectable="false"
+            app2:showSeekBarValue="true"/>
+        <net.kdt.pojavlaunch.prefs.CustomSeekBarPreference
+            android:key="gyroSensY"
+            android:title="@string/orbit_gyro_sens_y"
+            android:summary="@string/orbit_gyro_sens_desc"
+            android:defaultValue="100"
+            app2:min="10"
+            android:max="300"
+            app2:selectable="false"
+            app2:showSeekBarValue="true"/>
+        <net.kdt.pojavlaunch.prefs.CustomSeekBarPreference
+            android:key="gyroDeadzone"
+            android:title="@string/orbit_gyro_deadzone"
+            android:summary="@string/orbit_gyro_deadzone_desc"
+            android:defaultValue="0"
+            app2:min="0"
+            android:max="50"
+            app2:selectable="false"
+            app2:showSeekBarValue="true"/>
+        <SwitchPreference
+            android:key="gyroTouchToAim"
+            android:title="@string/orbit_gyro_touch"
+            android:summary="@string/orbit_gyro_touch_desc"
+            android:defaultValue="false"/>
+        <SwitchPreference
+            android:key="gyroFlickBoost"
+            android:title="@string/orbit_gyro_flick"
+            android:summary="@string/orbit_gyro_flick_desc"
+            android:defaultValue="false"/>
+        <SwitchPreference
+            android:key="phoneHud"
+            android:title="@string/orbit_phone_hud"
+            android:summary="@string/orbit_phone_hud_desc"
+            android:defaultValue="true"/>
 
     </PreferenceCategory>
 

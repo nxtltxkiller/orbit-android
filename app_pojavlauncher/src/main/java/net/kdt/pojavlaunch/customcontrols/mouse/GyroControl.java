@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.WindowManager;
@@ -56,6 +57,30 @@ public class GyroControl implements SensorEventListener, GrabListener {
     private float mStoredX = 0;
     private float mStoredY = 0;
 
+    /* Orbit: fingers on the screen right now, for touch-to-aim (fed by MainActivity.dispatchTouchEvent) */
+    private static volatile int sFingers;
+
+    public static void onTouch(MotionEvent ev) {
+        switch (ev.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN: case MotionEvent.ACTION_POINTER_DOWN: case MotionEvent.ACTION_MOVE: sFingers = ev.getPointerCount(); break;
+            case MotionEvent.ACTION_POINTER_UP: sFingers = Math.max(0, ev.getPointerCount() - 1); break;
+            case MotionEvent.ACTION_UP: case MotionEvent.ACTION_CANCEL: sFingers = 0; break;
+        }
+    }
+
+    /* Orbit: deadzone (0..50, steps of 0.0002 rad per sample) eats hand tremor; per-axis sensitivity; fast turns
+       above ~70 deg/s get up to 1.8x (flick boost) so a 180 needs less wrist. */
+    private static float shape(float v, float sens) {
+        float dz = LauncherPreferences.PREF_GYRO_DEADZONE * 0.0002f, a = Math.abs(v);
+        if (a <= dz) return 0;
+        a -= dz;
+        if (LauncherPreferences.PREF_GYRO_FLICK_BOOST) {
+            float t = 0.02f;
+            if (a > t) a *= 1f + 0.8f * Math.min(1f, (a - t) / t);
+        }
+        return Math.copySign(a * sens, v);
+    }
+
     public GyroControl(Activity activity) {
         mWindowManager = activity.getWindowManager();
         mSurfaceRotation = -10;
@@ -97,8 +122,9 @@ public class GyroControl implements SensorEventListener, GrabListener {
         }
         SensorManager.getAngleChange(mAngleDifference, mCurrentRotation, mPreviousRotation);
         damperValue(mAngleDifference);
-        mStoredX += xAverage * 1000 * LauncherPreferences.PREF_GYRO_SENSITIVITY;
-        mStoredY += yAverage * 1000 * LauncherPreferences.PREF_GYRO_SENSITIVITY;
+        if (LauncherPreferences.PREF_GYRO_TOUCH_TO_AIM && sFingers == 0) { mStoredX = mStoredY = 0; return; }
+        mStoredX += shape(xAverage, LauncherPreferences.PREF_GYRO_SENS_X) * 1000 * LauncherPreferences.PREF_GYRO_SENSITIVITY;
+        mStoredY += shape(yAverage, LauncherPreferences.PREF_GYRO_SENS_Y) * 1000 * LauncherPreferences.PREF_GYRO_SENSITIVITY;
 
         boolean updatePosition = false;
         float absX = Math.abs(mStoredX);
