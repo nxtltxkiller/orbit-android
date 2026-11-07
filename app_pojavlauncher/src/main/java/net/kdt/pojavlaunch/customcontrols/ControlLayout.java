@@ -131,6 +131,11 @@ public class ControlLayout extends FrameLayout {
 	public void addControlButton(ControlData controlButton) {
 		mLayout.mControlDataList.add(controlButton);
 		addControlView(controlButton);
+		// Orbit: a new button has no key yet, so open its settings straight away to pick one
+		if (mModifiable) {
+			android.view.View added = getChildAt(getChildCount() - 1);
+			if (added instanceof ControlInterface) post(() -> editControlButton((ControlInterface) added));
+		}
 	}
 
 	private void addControlView(ControlData controlButton) {

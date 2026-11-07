@@ -8,7 +8,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical"
-	android:background="@color/background_app"
+	android:background="@android:color/transparent"
 	>
 	<ScrollView
 		android:layout_width="match_parent"
@@ -17,7 +17,8 @@
 		app:layout_constraintBottom_toTopOf="@id/mc_version_spinner">
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:layoutAnimation="@anim/orbit_layout_in">
 			<androidx.constraintlayout.widget.Guideline
 				android:id="@+id/center_guideline"
 				android:layout_width="0dp"
@@ -28,7 +29,7 @@
 				android:id="@+id/news_button"
 				style="@style/LauncherMenuButton.Universal"
 				android:layout_width="0dp"
-				android:text="@string/mcl_tab_wiki"
+				android:text="@string/orbit_get_pack"
 				android:drawableStart="@drawable/ic_menu_news"
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +46,7 @@
 				android:id="@+id/discord_button"
 				style="@style/LauncherMenuButton.Universal"
 				android:layout_width="0dp"
-				android:text="@string/mcl_button_discord"
+				android:text="@string/orbit_website"
 				android:drawableStart="@drawable/ic_discord"
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintStart_toEndOf="@id/social_divider"
@@ -119,7 +120,7 @@
 		android:id="@+id/_background_display_view"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:background="@color/background_bottom_bar"
+		android:background="@drawable/orbit_bottom_bar"
 		android:translationZ="-1dp"
 
 		app:layout_constraintBottom_toBottomOf="parent"

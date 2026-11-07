@@ -135,6 +135,15 @@ public class LauncherPreferences {
         // User may have deleted their default control
         String userDefCtrl = DEFAULT_PREF.getString("defaultCtrl", Tools.CTRLDEF_FILE);
         PREF_DEFAULTCTRL_PATH = FileUtils.exists(userDefCtrl) ? userDefCtrl : Tools.CTRLDEF_FILE;
+        // Orbit: W A S D (no joystick) is the default layout, set once; a layout you pick later is left alone
+        if (!DEFAULT_PREF.getBoolean("orbitWasdDefault", false)) {
+            String wasd = Tools.CTRLMAP_PATH + "/orbit_wasd.json";
+            try { Tools.copyAssetFile(ctx, "orbit_wasd.json", Tools.CTRLMAP_PATH, false); } catch (Exception ignored) { }
+            if (FileUtils.exists(wasd)) {
+                DEFAULT_PREF.edit().putString("defaultCtrl", wasd).putBoolean("orbitWasdDefault", true).apply();
+                PREF_DEFAULTCTRL_PATH = wasd;
+            }
+        }
 
         String argLwjglLibname = "-Dorg.lwjgl.opengl.libname=";
         for (String arg : JREUtils.parseJavaArguments(PREF_CUSTOM_JAVA_ARGS)) {

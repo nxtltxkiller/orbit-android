@@ -1519,6 +1519,7 @@ public final class Tools {
         //TODO handle custom animations
         fragmentActivity.getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
+                .setCustomAnimations(R.anim.orbit_enter, R.anim.orbit_exit, R.anim.orbit_pop_enter, R.anim.orbit_pop_exit)
                 .addToBackStack(fragmentClass.getName())
                 .replace(R.id.container_fragment, fragmentClass, bundle, fragmentTag).commit();
     }

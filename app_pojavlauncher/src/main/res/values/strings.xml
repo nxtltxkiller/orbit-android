@@ -542,4 +542,8 @@
     <string name="orbit_snap_desc">For W/S and A/D buttons: pressing the opposite key releases the one you hold, so the newest direction wins at once with no stuck or ghost key. Let go and the held key comes back.</string>
     <string name="orbit_lowlat_title">Low-latency mode</string>
     <string name="orbit_lowlat_desc">While you play: keeps Wi-Fi out of power save (no ping spikes), uses your screen\'s highest refresh rate and skips display post-processing. Uses a bit more battery.</string>
+    <string name="orbit_get_pack">Get Orbit pack</string>
+    <string name="orbit_website">Orbit website</string>
+    <string name="orbit_get_pack_start">Getting the latest Orbit pack...</string>
+    <string name="orbit_get_pack_downloading">Downloading the Orbit pack</string>
 </resources>

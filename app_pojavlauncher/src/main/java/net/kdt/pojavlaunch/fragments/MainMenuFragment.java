@@ -21,7 +21,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.kdt.mcgui.ProgressLayout;
 import com.kdt.mcgui.mcVersionSpinner;
+
+import net.kdt.pojavlaunch.PojavApplication;
+import net.kdt.pojavlaunch.modloaders.modpacks.api.CommonApi;
+import net.kdt.pojavlaunch.modloaders.modpacks.api.ModLoader;
+import net.kdt.pojavlaunch.modloaders.modpacks.api.NotificationDownloadListener;
+import net.kdt.pojavlaunch.utils.DownloadUtils;
 
 import net.kdt.pojavlaunch.CustomControlsActivity;
 import net.kdt.pojavlaunch.R;
@@ -42,6 +49,28 @@ public class MainMenuFragment extends Fragment {
 
     private mcVersionSpinner mVersionSpinner;
 
+    private static final String ORBIT_PACK_URL = "https://github.com/nxtltxkiller/orbit-android/releases/latest/download/Orbit-Android.mrpack";
+
+    /** Orbit: download the latest Orbit pack and install it as a profile (Minecraft, Fabric, mods, packs, settings). */
+    private void getOrbitPack() {
+        final android.app.Activity act = requireActivity();
+        Toast.makeText(act, R.string.orbit_get_pack_start, Toast.LENGTH_SHORT).show();
+        PojavApplication.sExecutorService.execute(() -> {
+            File pack = new File(Tools.DIR_CACHE, "orbit_pack.mrpack");
+            try {
+                ProgressLayout.setProgress(ProgressLayout.INSTALL_MODPACK, 0, R.string.orbit_get_pack_downloading);
+                DownloadUtils.downloadFile(ORBIT_PACK_URL, pack);
+                ModLoader loader = new CommonApi(act.getString(R.string.curseforge_api_key)).importModpack(pack);
+                pack.delete();
+                if (loader != null) loader.getDownloadTask(new NotificationDownloadListener(act, loader)).run();
+            } catch (Exception e) {
+                pack.delete();
+                ProgressLayout.clearProgress(ProgressLayout.INSTALL_MODPACK);
+                Tools.showErrorRemote(act, R.string.modpack_install_download_failed, e);
+            }
+        });
+    }
+
     public MainMenuFragment(){
         super(R.layout.fragment_launcher);
     }
@@ -59,8 +88,8 @@ public class MainMenuFragment extends Fragment {
         Button mPlayButton = view.findViewById(R.id.play_button);
         mVersionSpinner = view.findViewById(R.id.mc_version_spinner);
 
-        mNewsButton.setOnClickListener(v -> Tools.openURL(requireActivity(), Tools.URL_HOME));
-        mDiscordButton.setOnClickListener(v -> Tools.openURL(requireActivity(), getString(R.string.discord_invite)));
+        mNewsButton.setOnClickListener(v -> getOrbitPack());
+        mDiscordButton.setOnClickListener(v -> Tools.openURL(requireActivity(), "https://orbit-launcher-mc.netlify.app"));
         mCustomControlButton.setOnClickListener(v -> startActivity(new Intent(requireContext(), CustomControlsActivity.class)));
         if (hasOnlineProfile()) {
             mInstallJarButton.setOnClickListener(v -> runInstallerWithConfirmation(false));

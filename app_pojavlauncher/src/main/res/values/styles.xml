@@ -25,6 +25,9 @@
 
     <style name="LauncherMenuButton.Universal" parent="LauncherMenuButton">
         <item name="android:layout_height">@dimen/_66sdp</item>
+        <item name="android:background">@drawable/orbit_glass_card</item>
+        <item name="android:textColor">#FFF5F6F7</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="ThickDivider">
