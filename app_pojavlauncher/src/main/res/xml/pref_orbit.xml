@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <net.kdt.pojavlaunch.prefs.BackButtonPreference/>
+
+    <PreferenceCategory android:title="@string/orbit_tools_category">
+        <Preference
+            android:key="orbitDeviceInfo"
+            android:title="@string/orbit_device_title"
+            android:selectable="false"/>
+        <Preference
+            android:key="orbitOptimize"
+            android:title="@string/orbit_optimize_title"
+            android:summary="@string/orbit_optimize_desc"/>
+        <Preference
+            android:key="orbitFreeRam"
+            android:title="@string/orbit_free_ram_title"
+            android:summary="@string/orbit_free_ram_desc"/>
+        <Preference
+            android:key="orbitWasdInfo"
+            android:title="@string/orbit_wasd_title"
+            android:summary="@string/orbit_wasd_desc"
+            android:selectable="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>

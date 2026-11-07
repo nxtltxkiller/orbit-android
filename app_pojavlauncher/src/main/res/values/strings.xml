@@ -528,4 +528,14 @@
     <string name="orbit_gyro_flick_desc">Fast turns move up to 1.8x further, so 180s need less wrist. Slow aim stays 1:1.</string>
     <string name="orbit_phone_hud">Phone health overlay</string>
     <string name="orbit_phone_hud_desc">Battery, battery temperature and free RAM in the corner while playing. Turns red when the phone gets hot.</string>
+    <string name="orbit_tools_title">Orbit tools</string>
+    <string name="orbit_tools_desc">Auto-Optimize for this phone, Free up RAM, WASD controls.</string>
+    <string name="orbit_tools_category">Orbit tools</string>
+    <string name="orbit_device_title">This phone</string>
+    <string name="orbit_optimize_title">Auto-Optimize for this phone</string>
+    <string name="orbit_optimize_desc">Sets memory, resolution and performance mode for your phone, plus render distance, particles and an FPS cap in every game folder. Tap again any time.</string>
+    <string name="orbit_free_ram_title">Free up RAM</string>
+    <string name="orbit_free_ram_desc">Asks Android to close other apps running in the background (never system apps). Use it right before you play.</string>
+    <string name="orbit_wasd_title">WASD controls</string>
+    <string name="orbit_wasd_desc">Prefer keys to the joystick? Open the controls editor, tap Load and pick orbit_wasd: W A S D buttons plus Q, T, Tab, F3 and F5. Drag any button anywhere.</string>
 </resources>
