@@ -59,6 +59,7 @@ public class LauncherPreferences {
     public static float PREF_GYRO_SENS_X = 1f, PREF_GYRO_SENS_Y = 1f;
     public static int PREF_GYRO_DEADZONE = 0;
     public static boolean PREF_GYRO_TOUCH_TO_AIM = false, PREF_GYRO_FLICK_BOOST = false, PREF_PHONE_HUD = true;
+    public static boolean PREF_SNAP_TAP = true;
 
     public static boolean PREF_FORCE_VSYNC = false;
 
@@ -113,6 +114,7 @@ public class LauncherPreferences {
         PREF_GYRO_TOUCH_TO_AIM = DEFAULT_PREF.getBoolean("gyroTouchToAim", false);
         PREF_GYRO_FLICK_BOOST = DEFAULT_PREF.getBoolean("gyroFlickBoost", false);
         PREF_PHONE_HUD = DEFAULT_PREF.getBoolean("phoneHud", true);
+        PREF_SNAP_TAP = DEFAULT_PREF.getBoolean("snapTap", true);
         PREF_FORCE_VSYNC = DEFAULT_PREF.getBoolean("force_vsync", isDevicePowerful);
         PREF_BUTTON_ALL_CAPS = DEFAULT_PREF.getBoolean("buttonAllCaps", true);
         PREF_DUMP_SHADERS = DEFAULT_PREF.getBoolean("dump_shaders", false);

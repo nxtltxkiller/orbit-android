@@ -538,4 +538,6 @@
     <string name="orbit_free_ram_desc">Asks Android to close other apps running in the background (never system apps). Use it right before you play.</string>
     <string name="orbit_wasd_title">WASD controls</string>
     <string name="orbit_wasd_desc">Prefer keys to the joystick? Open the controls editor, tap Load and pick orbit_wasd: W A S D buttons plus Q, T, Tab, F3 and F5. Drag any button anywhere.</string>
+    <string name="orbit_snap_title">Snap tap (last key wins)</string>
+    <string name="orbit_snap_desc">For W/S and A/D buttons: pressing the opposite key releases the one you hold, so the newest direction wins at once with no stuck or ghost key. Let go and the held key comes back.</string>
 </resources>

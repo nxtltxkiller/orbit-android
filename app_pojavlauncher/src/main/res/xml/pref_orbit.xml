@@ -16,6 +16,11 @@
             android:key="orbitFreeRam"
             android:title="@string/orbit_free_ram_title"
             android:summary="@string/orbit_free_ram_desc"/>
+        <SwitchPreference
+            android:key="snapTap"
+            android:title="@string/orbit_snap_title"
+            android:summary="@string/orbit_snap_desc"
+            android:defaultValue="true"/>
         <Preference
             android:key="orbitWasdInfo"
             android:title="@string/orbit_wasd_title"
