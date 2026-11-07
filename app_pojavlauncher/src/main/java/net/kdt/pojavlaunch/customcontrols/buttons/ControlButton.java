@@ -192,6 +192,10 @@ public class ControlButton extends TextView implements ControlInterface {
 
     public void sendKeyPresses(boolean isDown){
         setActivated(isDown);
+        if (isDown) for (int k : mProperties.keycodes) {
+            if (k == ControlData.SPECIALBTN_MOUSEPRI) net.kdt.pojavlaunch.PhoneHud.click(0);
+            else if (k == ControlData.SPECIALBTN_MOUSESEC) net.kdt.pojavlaunch.PhoneHud.click(1);
+        }
         for(int keycode : mProperties.keycodes){
             if(SnapTap.handles(keycode)){
                 SnapTap.key(keycode, isDown);

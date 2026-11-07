@@ -17,20 +17,40 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
-/** Orbit: a small in-game corner readout of battery %, battery temperature and free RAM, so a phone
- *  that is about to throttle shows it before the frame rate drops. Turns red at 42 C and above. */
+/** Orbit: a small in-game corner readout of live CPS (attack / use button taps per second), battery %,
+ *  battery temperature and free RAM, so a phone that is about to throttle shows it before the frame rate
+ *  drops. Turns red at 42 C and above. CPS refreshes 4x a second; battery and RAM every 2 s. */
 public final class PhoneHud {
     private static final int HOT_C = 42;
     private final Activity mActivity;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private TextView mView;
     private boolean mRunning;
+    private int mTicks;
+    private String mPhone = "";
+    private boolean mHot;
+
+    // taps in the last second, per button (0 = attack, 1 = use); written from the UI thread only
+    private static final long[][] sTaps = new long[2][64];
+    private static final int[] sHead = new int[2];
+
+    /** An attack (0) or use (1) button went down. */
+    public static void click(int button) {
+        long[] r = sTaps[button];
+        r[sHead[button]++ & 63] = android.os.SystemClock.uptimeMillis();
+    }
+
+    private static int cps(int button) {
+        long now = android.os.SystemClock.uptimeMillis(); int n = 0;
+        for (long t : sTaps[button]) if (t != 0 && now - t <= 1000) n++;
+        return n;
+    }
 
     private final Runnable mTick = new Runnable() {
         @Override public void run() {
             if (!mRunning) return;
             update();
-            mHandler.postDelayed(this, 2000);
+            mHandler.postDelayed(this, 250);
         }
     };
 
@@ -56,6 +76,12 @@ public final class PhoneHud {
     public void stop() { mRunning = false; mHandler.removeCallbacks(mTick); }
 
     private void update() {
+        if (mTicks++ % 8 == 0) samplePhone();
+        mView.setText(String.format(Locale.ROOT, "CPS %d | %d   %s", cps(0), cps(1), mPhone));
+        mView.setTextColor(mHot ? Color.rgb(255, 100, 100) : 0xFFF5F6F7);
+    }
+
+    private void samplePhone() {
         Intent b = mActivity.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         int pct = -1, tempC = -1;
         if (b != null) {
@@ -68,7 +94,7 @@ public final class PhoneHud {
         ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
         if (am != null) am.getMemoryInfo(mi);
         long freeMb = mi.availMem / (1024 * 1024);
-        mView.setText(String.format(Locale.ROOT, "%s%%  %s°C  %d MB free", pct < 0 ? "?" : pct, tempC < 0 ? "?" : tempC, freeMb));
-        mView.setTextColor(tempC >= HOT_C || mi.lowMemory ? Color.rgb(255, 100, 100) : 0xFFF5F6F7);
+        mPhone = String.format(Locale.ROOT, "%s%%  %s°C  %d MB free", pct < 0 ? "?" : pct, tempC < 0 ? "?" : tempC, freeMb);
+        mHot = tempC >= HOT_C || mi.lowMemory;
     }
 }
