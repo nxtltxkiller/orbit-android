@@ -25,6 +25,7 @@ import com.kdt.mcgui.ProgressLayout;
 import com.kdt.mcgui.mcVersionSpinner;
 
 import net.kdt.pojavlaunch.PojavApplication;
+import net.kdt.pojavlaunch.OrbitUpdater;
 import net.kdt.pojavlaunch.modloaders.modpacks.api.CommonApi;
 import net.kdt.pojavlaunch.modloaders.modpacks.api.ModLoader;
 import net.kdt.pojavlaunch.modloaders.modpacks.api.NotificationDownloadListener;
@@ -89,7 +90,10 @@ public class MainMenuFragment extends Fragment {
         mVersionSpinner = view.findViewById(R.id.mc_version_spinner);
 
         mNewsButton.setOnClickListener(v -> getOrbitPack());
-        mDiscordButton.setOnClickListener(v -> Tools.openURL(requireActivity(), "https://orbit-launcher-mc.netlify.app"));
+        // Orbit: in-app updates (tap), the website is still a long-press away
+        mDiscordButton.setOnClickListener(v -> OrbitUpdater.check(requireActivity(), true));
+        mDiscordButton.setOnLongClickListener(v -> { Tools.openURL(requireActivity(), "https://orbit-launcher-mc.netlify.app"); return true; });
+        OrbitUpdater.checkOnLaunch(requireActivity());
         mCustomControlButton.setOnClickListener(v -> startActivity(new Intent(requireContext(), CustomControlsActivity.class)));
         if (hasOnlineProfile()) {
             mInstallJarButton.setOnClickListener(v -> runInstallerWithConfirmation(false));

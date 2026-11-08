@@ -546,4 +546,16 @@
     <string name="orbit_website">Orbit website</string>
     <string name="orbit_get_pack_start">Getting the latest Orbit pack...</string>
     <string name="orbit_get_pack_downloading">Downloading the Orbit pack</string>
+    <string name="orbit_check_updates">Check for updates</string>
+    <string name="orbit_update_checking">Checking for Orbit updates...</string>
+    <string name="orbit_update_none">Orbit %1$s is the newest version.</string>
+    <string name="orbit_update_title">Orbit %1$s is out</string>
+    <string name="orbit_update_from">You have %1$s. New in this version:</string>
+    <string name="orbit_update_now">Update</string>
+    <string name="orbit_update_later">Later</string>
+    <string name="orbit_update_downloading">Downloading Orbit update (%1$d%%)</string>
+    <string name="orbit_update_badhash">The download did not match the release checksum, so it was deleted. Try again.</string>
+    <string name="orbit_update_failed">Update check failed: %1$s</string>
+    <string name="orbit_update_failed_title">Update failed</string>
+    <string name="orbit_update_allow">Allow Orbit to install apps, then go back and tap Update again.</string>
 </resources>

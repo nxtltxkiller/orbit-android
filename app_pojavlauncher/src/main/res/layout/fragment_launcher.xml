@@ -46,7 +46,7 @@
 				android:id="@+id/discord_button"
 				style="@style/LauncherMenuButton.Universal"
 				android:layout_width="0dp"
-				android:text="@string/orbit_website"
+				android:text="@string/orbit_check_updates"
 				android:drawableStart="@drawable/ic_discord"
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintStart_toEndOf="@id/social_divider"
