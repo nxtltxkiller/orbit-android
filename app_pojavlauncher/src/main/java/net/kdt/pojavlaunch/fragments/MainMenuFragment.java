@@ -26,6 +26,7 @@ import com.kdt.mcgui.mcVersionSpinner;
 
 import net.kdt.pojavlaunch.PojavApplication;
 import net.kdt.pojavlaunch.OrbitUpdater;
+import net.kdt.pojavlaunch.OrbitImporter;
 import net.kdt.pojavlaunch.modloaders.modpacks.api.CommonApi;
 import net.kdt.pojavlaunch.modloaders.modpacks.api.ModLoader;
 import net.kdt.pojavlaunch.modloaders.modpacks.api.NotificationDownloadListener;
@@ -49,6 +50,10 @@ public class MainMenuFragment extends Fragment {
     public static final String TAG = "MainMenuFragment";
 
     private mcVersionSpinner mVersionSpinner;
+    // Orbit: pick another launcher's game folder (Mojo / Pojav show it in the system picker)
+    private final androidx.activity.result.ActivityResultLauncher<android.net.Uri> mImportPicker =
+            registerForActivityResult(new androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree(),
+                    uri -> OrbitImporter.start(requireActivity(), uri));
 
     private static final String ORBIT_PACK_URL = "https://github.com/nxtltxkiller/orbit-android/releases/latest/download/Orbit-Android.mrpack";
 
@@ -95,6 +100,10 @@ public class MainMenuFragment extends Fragment {
         mDiscordButton.setOnClickListener(v -> OrbitUpdater.check(requireActivity(), true));
         mDiscordButton.setOnLongClickListener(v -> { Tools.openURL(requireActivity(), "https://orbit-launcher-mc.netlify.app"); return true; });
         OrbitUpdater.checkOnLaunch(requireActivity());
+        view.findViewById(R.id.orbit_import_button).setOnClickListener(v -> new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.orbit_import_how_title).setMessage(R.string.orbit_import_how)
+                .setPositiveButton(R.string.orbit_import_pick_folder, (d, w) -> mImportPicker.launch(null))
+                .setNegativeButton(android.R.string.cancel, null).show());
         mCustomControlButton.setOnClickListener(v -> startActivity(new Intent(requireContext(), CustomControlsActivity.class)));
         if (hasOnlineProfile()) {
             mInstallJarButton.setOnClickListener(v -> runInstallerWithConfirmation(false));
