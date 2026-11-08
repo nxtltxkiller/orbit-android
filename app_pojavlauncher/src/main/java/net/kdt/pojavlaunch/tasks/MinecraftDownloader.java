@@ -191,6 +191,23 @@ public class MinecraftDownloader {
                 R.string.newdl_downloading_game_files_size, dlSizeMegabytes, dlTotalMegabytes, speed);
     }
 
+    /** Orbit: a modpack profile can point at fabric-loader-X-MC before its JSON exists (PLAY pressed before the
+     *  loader step finished, or that step failed). Fetch it here so PLAY just works. */
+    private static void fetchFabriclikeJson(String versionId, File target) {
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("^(fabric|quilt)-loader-([^-]+)-(.+)$").matcher(versionId);
+        if (!m.matches()) return;
+        net.kdt.pojavlaunch.modloaders.FabriclikeUtils u = "quilt".equals(m.group(1))
+                ? net.kdt.pojavlaunch.modloaders.FabriclikeUtils.QUILT_UTILS : net.kdt.pojavlaunch.modloaders.FabriclikeUtils.FABRIC_UTILS;
+        try {
+            String json = DownloadUtils.downloadString(u.createJsonDownloadUrl(m.group(3), m.group(2)));
+            new org.json.JSONObject(json);   // only write real JSON
+            FileUtils.ensureParentDirectory(target);
+            Tools.write(target.getAbsolutePath(), json);
+        } catch (Exception e) {
+            Log.w("MinecraftDownloader", "Could not fetch " + versionId, e);
+        }
+    }
+
     private File createGameJsonPath(String versionId) {
         return new File(Tools.DIR_HOME_VERSION, versionId + File.separator + versionId + ".json");
     }
@@ -284,6 +301,7 @@ public class MinecraftDownloader {
         File versionJsonFile;
         if(verInfo != null) versionJsonFile = downloadGameJson(verInfo);
         else versionJsonFile = createGameJsonPath(versionName);
+        if(!versionJsonFile.canRead()) fetchFabriclikeJson(versionName, versionJsonFile);
         if(versionJsonFile.canRead())  {
             verInfo = Tools.GLOBAL_GSON.fromJson(Tools.read(versionJsonFile), JMinecraftVersionList.Version.class);
         } else {

@@ -64,6 +64,7 @@ public class MainMenuFragment extends Fragment {
                 ModLoader loader = new CommonApi(act.getString(R.string.curseforge_api_key)).importModpack(pack);
                 pack.delete();
                 if (loader != null) loader.getDownloadTask(new NotificationDownloadListener(act, loader)).run();
+                act.runOnUiThread(() -> Toast.makeText(act, R.string.orbit_get_pack_ready, Toast.LENGTH_LONG).show());
             } catch (Exception e) {
                 pack.delete();
                 ProgressLayout.clearProgress(ProgressLayout.INSTALL_MODPACK);

@@ -558,4 +558,5 @@
     <string name="orbit_update_failed">Update check failed: %1$s</string>
     <string name="orbit_update_failed_title">Update failed</string>
     <string name="orbit_update_allow">Allow Orbit to install apps, then go back and tap Update again.</string>
+    <string name="orbit_get_pack_ready">Orbit pack is ready. Pick the Orbit profile and press PLAY.</string>
 </resources>
